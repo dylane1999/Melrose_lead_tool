@@ -25,14 +25,21 @@ class EconomistSpider(scrapy.Spider):
     name = "economist"
     start_urls = urls
 
-
     def parse(self, response):
         page = response.url.split('=')[-1]
-        filename = 'search-%s.html' % page
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file %s' % filename)
+        for result in response.css('ol.layout-search-results li'):
+            yield {
+                'Link': result.css('li a.search-result::attr(href)').get(),
+                'title': result.css('span.search-result__headline::text').get(),
+                'word' : page
+            }
+
 
 
 
 # response.css('a.search-result::attr(href)').getall()
+
+
+# response.css('a.search-result::attr(href)').getall()
+
+# response.css('ol.layout-search-results li')
