@@ -34,7 +34,9 @@ class EconomistSpider(scrapy.Spider):
                 'word' : page
             }
 
-
+        next_page = 'https://www.economist.com/search' + response.css('li.ds-pagination__nav--next a::attr(href)').get()
+        if next_page is not None:
+            yield response.follow(next_page, callback=self.parse)
 
 
 # response.css('a.search-result::attr(href)').getall()
