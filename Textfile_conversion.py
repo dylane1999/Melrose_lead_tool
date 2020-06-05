@@ -12,4 +12,3 @@ new_items = [x[:-1] for x in items]
 print(new_items)
 
 
-
