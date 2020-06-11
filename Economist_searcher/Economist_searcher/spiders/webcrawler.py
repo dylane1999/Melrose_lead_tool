@@ -21,6 +21,17 @@ for item in new_items:
 
 print urls
 
+search_matrix = []
+
+for i in range(len(new_items)):
+    search_matrix.append([])
+
+print(search_matrix)
+
+#position = new_items.index("bubble")
+#search_matrix[position].append("hello")
+
+
 class EconomistSpider(scrapy.Spider):
     name = "economist"
     start_urls = urls
@@ -44,6 +55,7 @@ class EconomistSpider(scrapy.Spider):
 
         entries = []
         duplicate_entries = []
+
         with open('output.csv', 'r') as my_file:
             for line in my_file:
                 columns = line.strip().split(',')
@@ -60,8 +72,29 @@ class EconomistSpider(scrapy.Spider):
                         if columns[1] in duplicate_entries:
                             print line.strip()
                             out_file.write(line)
-        else:
-            with open('none.txt', 'w') as file:file.write("none")
+       # else:
+           # with open('none.txt', 'w') as file:file.write("none")
+
+
+        for item in new_items:
+            with open('output.csv', 'r') as my_file:
+                for line in my_file:
+                    columns = line.strip().split(',')
+                    if columns[0] == item:
+                        position = new_items.index(str(item)) # the index of the searh item which cooresponds to the search matrix index for each term
+                        search_matrix[position].append(columns[0])
+
+        for items in new_items:
+            if len(search_matrix) > 0:
+                name = items + ".csv"
+                with open(name, 'w') as out_file:
+                    with open('output.csv', 'r') as my_file:
+                        for line in my_file:
+                            columns = line.strip().split(',')
+                            if columns[0] in search_matrix[new_items.index(items)]:
+                                print line.strip()
+                                out_file.write(line)
+
 
 
 
