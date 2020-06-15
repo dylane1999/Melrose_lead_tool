@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for Economist_searcher project
+# Scrapy settings for Nyt_searcher project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,14 +9,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'Economist_searcher'
+BOT_NAME = 'Nyt_searcher'
 
-SPIDER_MODULES = ['Economist_searcher.spiders']
-NEWSPIDER_MODULE = 'Economist_searcher.spiders'
+SPIDER_MODULES = ['Nyt_searcher.spiders']
+NEWSPIDER_MODULE = 'Nyt_searcher.spiders'
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'Economist_searcher (+http://www.yourdomain.com)'
+#USER_AGENT = 'Nyt_searcher (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -47,13 +47,13 @@ ROBOTSTXT_OBEY = False
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'Economist_searcher.middlewares.EconomistSearcherSpiderMiddleware': 543,
+#    'Nyt_searcher.middlewares.EconomistSearcherSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'Economist_searcher.middlewares.EconomistSearcherDownloaderMiddleware': 543,
+#    'Nyt_searcher.middlewares.EconomistSearcherDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -65,7 +65,7 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'Economist_searcher.pipelines.EconomistSearcherPipeline': 300,
+    'Nyt_searcher.pipelines.EconomistSearcherPipeline': 300,
 }
 
 

@@ -1,7 +1,14 @@
 import scrapy
 
 ## text file open
-my_file = open("/Users/dylanedwards/PycharmProjects/Newspaper_Scraper/textfile.txt")
+import os
+import csv
+from collections import Counter
+import pandas as pd
+
+path = os.getcwd()
+path = path + "/textfile.txt"
+my_file = open(path)  # opens textfile for keyword retrival
 
 all_the_lines = my_file.readlines()
 
@@ -13,11 +20,11 @@ print(items)
 
 new_items = [x[:-1] for x in items]
 print(new_items)
-#print text file
+# print text file
 
 urls = []
 for item in new_items:
-    urls.append('https://www.economist.com/search?q=' + item);
+    urls.append('https://www.nytimes.com/search?query=' + item);
 
 print urls
 
@@ -33,23 +40,23 @@ print(search_matrix)
 
 
 class EconomistSpider(scrapy.Spider):
-    name = "economist"
+    name = "melrose"
     start_urls = urls
 
     def parse(self, response):
         substring = '&page'
         #page = item
         page = response.url.split('=')[1]
-        for result in response.css('ol.layout-search-results li'):
+        for result in response.css('ol.layout-search-results li'): #CHANGE
             if substring in page:
-                page = page.replace('&page', '')
+                page = page.replace('&page', '')  #CHANGE
             yield {
-                'Link': result.css('li a.search-result::attr(href)').get(),
-                'title': result.css('span.search-result__headline::text').get(),
+                'Link': result.css('li a.search-result::attr(href)').get(),  #CHANGE
+                'title': result.css('span.search-result__headline::text').get(),  #CHANGE
                 'word' : page
             }
 
-        next_page = 'https://www.economist.com/search' + response.css('li.ds-pagination__nav--next a::attr(href)').get()
+        next_page = 'https://www.economist.com/search' + response.css('li.ds-pagination__nav--next a::attr(href)').get()  #CHANGE
         if next_page is not None:
             yield response.follow(next_page, callback=self.parse)
 
