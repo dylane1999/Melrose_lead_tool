@@ -24,7 +24,7 @@ print(new_items)
 
 urls = []
 for item in new_items:
-    urls.append('https://www.nytimes.com/search?query=' + item);
+    urls.append('https://www.wsj.com/search/term.html?KEYWORDS=' + item);
 
 print urls
 
@@ -47,21 +47,25 @@ class EconomistSpider(scrapy.Spider):
         substring = '&page'
         #page = item
         page = response.url.split('=')[1]
-        for result in response.css('ol.layout-search-results li'): #CHANGE
+        for result in response.css('ul.items.hedSumm li div.headline-container'): #DONE  response.css('ul.items.hedSumm li')
+
             if substring in page:
-                page = page.replace('&page', '')  #CHANGE
+                page = page.replace('&page', '')  #DONE   <h3 class="headline"> <a href="
             yield {
-                'Link': result.css('li a.search-result::attr(href)').get(),  #CHANGE
-                'title': result.css('span.search-result__headline::text').get(),  #CHANGE
-                'word' : page
+                'Link': result.css('h3.headline a::attr(href)').get(),  #DONE
+                'Title': result.css('h3.headline a::text').get(),  #DONE response.css('ul.items.hedSumm li div.headline-container div.article-info span::text').get()
+                'Author': result.css('div.article-info span::text').get(),
+                'Word' : page
             }
 
-        next_page = 'https://www.economist.com/search' + response.css('li.ds-pagination__nav--next a::attr(href)').get()  #CHANGE
+        next_page = 'https://www.wsj.com/search/term.html' + response.css('li.next-page a::attr(href)').get()   #DONE  ?KEYWORDS=crypto&page=2'
         if next_page is not None:
             yield response.follow(next_page, callback=self.parse)
 
         entries = []
         duplicate_entries = []
+        unique_duplicates = []
+
 
         with open('output.csv', 'r') as my_file:
             for line in my_file:
@@ -76,7 +80,8 @@ class EconomistSpider(scrapy.Spider):
                 with open('output.csv', 'r') as my_file:
                     for line in my_file:
                         columns = line.strip().split(',')
-                        if columns[1] in duplicate_entries:
+                        if columns[1] in duplicate_entries and (columns[1] not in unique_duplicates):
+                            unique_duplicates.append(columns[1])                     #^ stops same one from going in but ommits same link diff search
                             print line.strip()
                             out_file.write(line)
        # else:

@@ -11,7 +11,7 @@ from scrapy.exporters import CsvItemExporter
 
 
 
-class EconomistSearcherPipeline(object):
+class WSJSearcherPipeline(object):
     @classmethod
     def from_crawler(cls, crawler):
         pipeline = cls()
